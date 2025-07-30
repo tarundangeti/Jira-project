@@ -1,7 +1,7 @@
-name: Deploy Jira Plugin
+name: Build and Deploy Jira Plugin
 
 on:
-  workflow_dispatch:  # Manual trigger from GitHub UI
+  workflow_dispatch: # manual trigger from GitHub UI
 
 jobs:
   build-and-deploy:
@@ -25,7 +25,7 @@ jobs:
 
       - name: Install Atlassian SDK
         uses: rodrigo-nogues/github-action-install-atlassian-sdk@v1
-        # This action installs the latest Atlassian SDK and adds it to PATH
+        # This action installs Atlassian SDK and adds it to PATH
 
       - name: Verify Atlassian SDK installation
         run: |
@@ -37,7 +37,7 @@ jobs:
 
       - name: Verify plugin artifact exists
         run: |
-          echo "Listing $PLUGIN_FILE"
+          echo "Listing plugin artifact $PLUGIN_FILE"
           ls -l $PLUGIN_FILE
 
       - name: Upload plugin to Jira
