@@ -1,7 +1,7 @@
 name: Deploy Jira Plugin
 
 on:
-  workflow_dispatch:  # Manual trigger
+  workflow_dispatch:  # Manual trigger from GitHub UI
 
 jobs:
   build-and-deploy:
@@ -20,27 +20,30 @@ jobs:
       - name: Set up Java 8 (Temurin)
         uses: actions/setup-java@v3
         with:
+          distribution: temurin
           java-version: '8'
-          distribution: 'temurin'
 
       - name: Install Atlassian SDK
+        uses: rodrigo-nogues/github-action-install-atlassian-sdk@v1
+        # This action installs the latest Atlassian SDK and adds it to PATH
+
+      - name: Verify Atlassian SDK installation
         run: |
-          wget https://product-downloads.atlassian.com/software/atlassian-sdk/atlassian-plugin-sdk-latest.tar.gz
-          tar -xzf atlassian-plugin-sdk-latest.tar.gz
-          echo "$PWD/atlassian-plugin-sdk-*" >> $GITHUB_PATH
+          atlas-version
+          atlas-mvn --version
 
       - name: Build plugin with Atlassian Maven (atlas-mvn)
-        # The Atlassian SDK sets up the correct Maven settings and plugin repos for you
-        run: |
-          export PATH="$PWD/atlassian-plugin-sdk-*/bin:$PATH"
-          atlas-mvn --version
-          atlas-mvn clean package
+        run: atlas-mvn clean package
 
-      # Adjust PLUGIN_FILE path according to the artifact actually built
+      - name: Verify plugin artifact exists
+        run: |
+          echo "Listing $PLUGIN_FILE"
+          ls -l $PLUGIN_FILE
+
       - name: Upload plugin to Jira
         run: |
           echo "Uploading plugin to $JIRA_URL"
-          curl -u "$JIRA_USER:$JIRA_PASS" \
+          curl -v -u "$JIRA_USER:$JIRA_PASS" \
             -X POST \
             -H "Content-Type: multipart/form-data" \
             -F "plugin=@$PLUGIN_FILE" \
