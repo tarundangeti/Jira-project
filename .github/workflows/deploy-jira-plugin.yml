@@ -24,7 +24,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Build plugin with Maven
-        run: mvn clean package
+        run: atlas-mvn clean package
 
       - name: Upload plugin to Jira
         run: |
