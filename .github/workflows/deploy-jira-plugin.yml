@@ -33,7 +33,8 @@ jobs:
           atlas-mvn --version
 
       - name: Build plugin with Atlassian Maven (atlas-mvn)
-        run: atlas-mvn clean package
+        run: atlas-mvn clean package -U
+
 
       - name: Verify plugin artifact exists
         run: |
