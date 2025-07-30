@@ -1,0 +1,30 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  JIRA_URL: "http://your-jira-server:8080"
+  PLUGIN_FILE: "target/your-plugin-name.jar"
+
+build:
+  stage: build
+  image: maven:3.6.3-jdk-8
+  script:
+    - atlas-mvn clean package
+  artifacts:
+    paths:
+      - target/*.jar
+
+upload_plugin:
+  stage: deploy
+  script:
+    - echo "Uploading plugin to Jira at $JIRA_URL"
+    - curl -u "$JIRA_USER:$JIRA_PASS" \
+        -X POST \
+        -H "Content-Type: multipart/form-data" \
+        -F "plugin=@$PLUGIN_FILE" \
+        "$JIRA_URL/rest/plugins/1.0/"
+  only:
+    - main
+  when: manual
+  allow_failure: false
