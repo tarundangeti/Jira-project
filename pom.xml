@@ -11,6 +11,26 @@
 
   <name>Hello Jira Plugin</name>
 
+  <properties>
+    <jira.version>8.20.10</jira.version>
+    <atlassian.plugin.key>com.example.hello.jira</atlassian.plugin.key>
+  </properties>
+
+  <!-- ✅ Add Atlassian plugin repositories -->
+  <repositories>
+    <repository>
+      <id>atlassian-public</id>
+      <url>https://packages.atlassian.com/maven-public</url>
+    </repository>
+  </repositories>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>atlassian-public</id>
+      <url>https://packages.atlassian.com/maven-public</url>
+    </pluginRepository>
+  </pluginRepositories>
+
   <dependencies>
     <dependency>
       <groupId>com.atlassian.jira</groupId>
@@ -28,15 +48,10 @@
         <version>8.0.7</version>
         <extensions>true</extensions>
         <configuration>
-          <productVersion>8.20.10</productVersion>
-          <productDataVersion>8.20.10</productDataVersion>
+          <productVersion>${jira.version}</productVersion>
+          <productDataVersion>${jira.version}</productDataVersion>
         </configuration>
       </plugin>
     </plugins>
   </build>
-
-  <properties>
-    <jira.version>8.20.10</jira.version>
-    <atlassian.plugin.key>com.example.hello.jira</atlassian.plugin.key>
-  </properties>
 </project>
