@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.example</groupId>
+  <artifactId>hello-jira</artifactId>
+  <version>1.0.0</version>
+  <packaging>atlassian-plugin</packaging>
+
+  <name>Hello Jira Plugin</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.atlassian.jira</groupId>
+      <artifactId>jira-api</artifactId>
+      <version>${jira.version}</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.atlassian.maven.plugins</groupId>
+        <artifactId>jira-maven-plugin</artifactId>
+        <version>8.0.7</version>
+        <extensions>true</extensions>
+        <configuration>
+          <productVersion>8.20.10</productVersion>
+          <productDataVersion>8.20.10</productDataVersion>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <properties>
+    <jira.version>8.20.10</jira.version>
+    <atlassian.plugin.key>com.example.hello.jira</atlassian.plugin.key>
+  </properties>
+</project>
