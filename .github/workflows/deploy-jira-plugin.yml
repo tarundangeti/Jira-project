@@ -1,7 +1,7 @@
 name: Deploy Jira Plugin
 
 on:
-  workflow_dispatch:  # 👈 This enables manual trigger from GitHub UI
+  workflow_dispatch:  # Manual trigger
 
 jobs:
   build-and-deploy:
@@ -17,15 +17,26 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Java 8
+      - name: Set up Java 8 (Temurin)
         uses: actions/setup-java@v3
         with:
           java-version: '8'
           distribution: 'temurin'
 
-      - name: Build plugin with Maven
-        run: atlas-mvn clean package
+      - name: Install Atlassian SDK
+        run: |
+          wget https://product-downloads.atlassian.com/software/atlassian-sdk/atlassian-plugin-sdk-latest.tar.gz
+          tar -xzf atlassian-plugin-sdk-latest.tar.gz
+          echo "$PWD/atlassian-plugin-sdk-*" >> $GITHUB_PATH
 
+      - name: Build plugin with Atlassian Maven (atlas-mvn)
+        # The Atlassian SDK sets up the correct Maven settings and plugin repos for you
+        run: |
+          export PATH="$PWD/atlassian-plugin-sdk-*/bin:$PATH"
+          atlas-mvn --version
+          atlas-mvn clean package
+
+      # Adjust PLUGIN_FILE path according to the artifact actually built
       - name: Upload plugin to Jira
         run: |
           echo "Uploading plugin to $JIRA_URL"
