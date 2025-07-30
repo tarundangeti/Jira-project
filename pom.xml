@@ -2,6 +2,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
          http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.example</groupId>
@@ -16,18 +17,18 @@
     <atlassian.plugin.key>com.example.hello.jira</atlassian.plugin.key>
   </properties>
 
-  <!-- ✅ Add Atlassian plugin repositories -->
+  <!-- Updated Atlassian public Maven repository URL -->
   <repositories>
     <repository>
       <id>atlassian-public</id>
-      <url>https://packages.atlassian.com/maven-public</url>
+      <url>https://packages.atlassian.com/maven-public/</url>
     </repository>
   </repositories>
 
   <pluginRepositories>
     <pluginRepository>
       <id>atlassian-public</id>
-      <url>https://packages.atlassian.com/maven-public</url>
+      <url>https://packages.atlassian.com/maven-public/</url>
     </pluginRepository>
   </pluginRepositories>
 
